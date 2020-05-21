@@ -36,36 +36,44 @@ public class File_Reader {
 
     public Tile_Puzzle getStartingTilePuzzle() throws IOException {
         int[] tileSize = getTileSize(Files.readAllLines(Paths.get(path)).get(3));
-        Tile[][] tilePuzzle = new Tile[tileSize[0]][tileSize[1]];
+        Tile[][] tileMat = new Tile[tileSize[0]][tileSize[1]];
         int[] blankPosition = new int[2];
        for (int i = 0; i < tileSize[0]; i++) {
            String[] row = Files.readAllLines(Paths.get(path)).get(i + 6).split(",");
            for (int j = 0; j < row.length; j++) {
+               int index;
                if(row[j].equals("_")){
                    blankPosition[0] = i;
                    blankPosition[1] = j;
+                   index = -1;
                }
-               int index = Integer.parseInt(row[j]);
-               tilePuzzle[i][j] = allTiles.get(index);
+               else
+                   index = Integer.parseInt(row[j]);
+               tileMat[i][j] = allTiles.get(index);
            }
        }
        Tile_Puzzle tile_puzzle = new Tile_Puzzle(tileSize[0], tileSize[1], blankPosition);
-       tile_puzzle.setTilePuzzle(tilePuzzle);
+       tile_puzzle.setTileMat(tileMat);
        return tile_puzzle;
     }
 
     public Tile_Puzzle getEndingTilePuzzle() throws IOException {
         int[] tileSize = getTileSize(Files.readAllLines(Paths.get(path)).get(3));
-        Tile[][] tilePuzzle = new Tile[tileSize[0]][tileSize[1]];
+        Tile[][] tileMat = new Tile[tileSize[0]][tileSize[1]];
         int index = 1;
         for (int i = 0; i < tileSize[0]; i++) {
             for (int j = 0; j < tileSize[1]; j++) {
-                tilePuzzle[i][j] = new Tile(color.NONE, index);
+                tileMat[i][j] = new Tile(color.NONE, index);
                 index++;
             }
         }
-        tilePuzzle[tileSize[0] - 1][tileSize[1] - 1] = new Tile(color.NONE, -1);
-        return new Tile_Puzzle(tilePuzzle);
+        tileMat[tileSize[0] - 1][tileSize[1] - 1] = new Tile(color.NONE, -1);
+        Tile_Puzzle tile_puzzle = new Tile_Puzzle(tileMat);
+        int[] blackPosition = new int[2];
+        blackPosition[0] = tileMat.length - 1;
+        blackPosition[1] = tileMat[0].length - 1;
+        tile_puzzle.setBlankPosition(blackPosition);
+        return tile_puzzle;
     }
 
 

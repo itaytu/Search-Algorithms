@@ -3,7 +3,7 @@ public enum color {
     GREEN(1, true),
     BLACK(0, false),
     WHITE(0, true),
-    NONE;
+    NONE(0, true);
 
     private int value;
     private boolean canMove;
@@ -12,8 +12,6 @@ public enum color {
         this.value = num;
         this.canMove = canMove;
     }
-
-    color() {}
 
     public int getValue() {
         return value;
