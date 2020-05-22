@@ -18,7 +18,7 @@ public class BFS  {
     }
 
 
-    String bfsAlgrotihm() {
+    String bfsAlgorithm() {
         Queue<Tile_Puzzle> myQueue = new LinkedList<>();
         HashSet<Tile_Puzzle> openList = new HashSet<>();
         HashSet<Tile_Puzzle> closedList = new HashSet<>();
@@ -30,10 +30,10 @@ public class BFS  {
             Tile_Puzzle currentNode = myQueue.poll();
             openList.remove(currentNode);
             closedList.add(currentNode);
-            ArrayList<Tile_Puzzle> nodeOperations = Operators.availableOperatorsWithoutWeights(currentNode); //TODO: add parent to nodeOperations
+            ArrayList<Tile_Puzzle> nodeOperations = Operators.availableOperatorsWithoutWeights(currentNode);
             for (Tile_Puzzle operation : nodeOperations) {
                 numOfCreated++;
-                if (!myQueue.contains(operation) && !closedList.contains(operation)) {
+                if (!openList.contains(operation) && !closedList.contains(operation)) {
                     if (operation.equals(endingNode))
                         return getPath(operation);
                     myQueue.add(operation);
@@ -43,8 +43,6 @@ public class BFS  {
         }
         return "";
     }
-
-
 
     String getPath(Tile_Puzzle operation){
         String path = operation.getCurrentPath().substring(1) + "\n";

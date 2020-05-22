@@ -18,15 +18,11 @@ public class Algorithms {
         if(isPossible){
             if (file_reader.getAlgorithm().equals("BFS")) {
                 BFS bfs = new BFS(startingNode, endingNode);
-                System.out.println(bfs.bfsAlgrotihm());
+                System.out.println(bfs.bfsAlgorithm());
             }
         }
 
     }
-
-
-
-
 
 
 

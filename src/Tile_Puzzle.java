@@ -17,12 +17,6 @@ public class Tile_Puzzle {
         costOfPath = 0;
     }
 
-    public Tile_Puzzle(int row, int col){
-        tileMat = new Tile[row][col];
-        currentPath = "";
-        costOfPath = 0;
-    }
-
     public Tile_Puzzle(Tile[][] tileMat) {
         this.tileMat = tileMat;
         currentPath = "";
