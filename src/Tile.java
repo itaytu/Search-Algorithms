@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Tile {
     private color color;
     private int index;
@@ -6,6 +8,11 @@ public class Tile {
     public Tile(color color, int index) {
         this.color = color;
         this.index = index;
+    }
+
+    public Tile(Tile tile) {
+        this.color = tile.color;
+        this.index = tile.index;
     }
 
     public color getColor() {
@@ -20,6 +27,24 @@ public class Tile {
     public int getIndex() { return  index; }
 
     public void setIndex(int index) { this.index = index; }
+
+    @Override
+    public String toString() {
+        return "" + index;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tile tile = (Tile) o;
+        return index == tile.index;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index);
+    }
 }
 
 
