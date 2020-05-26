@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Tile_Puzzle {
+public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
 
     private Tile[][] tileMat;
     private Tile_Puzzle parentNode = null;
@@ -9,18 +9,27 @@ public class Tile_Puzzle {
     private String currentPath;
 
     private int costOfPath;
+    private int fCost;
+    private int numOfIteration;
+    private int moveDirection;
 
     public Tile_Puzzle(int row, int col, int[] blankPosition){
         tileMat = new Tile[row][col];
         setBlankPosition(blankPosition);
         currentPath = "";
         costOfPath = 0;
+        fCost = 0;
+        numOfIteration = 0;
+        moveDirection = -1;
     }
 
     public Tile_Puzzle(Tile[][] tileMat) {
         this.tileMat = tileMat;
         currentPath = "";
         costOfPath = 0;
+        fCost = 0;
+        numOfIteration = 0;
+        moveDirection = -1;
     }
 
     public Tile_Puzzle(Tile_Puzzle other) {
@@ -35,6 +44,7 @@ public class Tile_Puzzle {
         setBlankPosition(other.blankPosition);
         currentPath = other.currentPath;
         costOfPath = other.costOfPath;
+        numOfIteration = other.numOfIteration;
     }
 
     public Tile[][] getTileMat() { return tileMat; }
@@ -73,13 +83,29 @@ public class Tile_Puzzle {
 
     public int getCostOfPath() { return this.costOfPath; }
 
+
+    public int getfCost() { return this.fCost; }
+
+    public void setfCost(int cost) { this.fCost = cost; }
+
+
+    public int getNumOfIteration() { return this.numOfIteration; }
+
+    public void addNumOfIteration() { this.numOfIteration++; }
+
+
+    public void setMoveDirection(int direction) { this.moveDirection = direction; }
+
+    public int getMoveDirection() { return this.moveDirection; }
+
+
     @Override
     public String toString() {
-        String s = "";
-        for (int i = 0; i < tileMat.length; i++){
-            s += Arrays.toString(tileMat[i]) + "\n";
+        StringBuilder s = new StringBuilder();
+        for (Tile[] tiles : tileMat) {
+            s.append(Arrays.toString(tiles)).append("\n");
         }
-        return s;
+        return s.toString();
     }
 
     @Override
@@ -97,6 +123,23 @@ public class Tile_Puzzle {
     @Override
     public int hashCode() {
         return Arrays.hashCode(tileMat);
+    }
+
+    @Override
+    public int compareTo(Tile_Puzzle other) {
+       if(this.getfCost() - other.getfCost() == 0){
+           if(this.getNumOfIteration() == other.getNumOfIteration()){
+               return other.getMoveDirection() - this.getMoveDirection();
+           }
+           else if (this.getNumOfIteration() > other.getNumOfIteration())
+               return 1;
+           else
+               return -1;
+       }
+       else if(this.getfCost() - other.getfCost() > 0)
+           return 1;
+       else
+           return -1;
     }
 }
 

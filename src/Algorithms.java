@@ -17,8 +17,8 @@ public class Algorithms {
 
         if(isPossible){
             if (file_reader.getAlgorithm().equals("BFS")) {
-                BFS bfs = new BFS(startingNode, endingNode);
-                System.out.println(bfs.bfsAlgorithm());
+                BFS bfs = new BFS(file_reader, startingNode, endingNode);
+                System.out.println(bfs.Init());
             }
         }
 

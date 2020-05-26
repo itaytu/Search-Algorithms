@@ -24,17 +24,17 @@ public class File_Reader {
         return Files.readAllLines(Paths.get(path)).get(2).equals("with open");
     }
 
-    public Map<Integer, Tile> getAllTiles() throws IOException {
+    public void getAllTiles() throws IOException {
         int[] tileSize = getTileSize(Files.readAllLines(Paths.get(path)).get(3));
         getTiles(Files.readAllLines(Paths.get(path)).get(4), color.BLACK);
         getTiles(Files.readAllLines(Paths.get(path)).get(5), color.RED);
         fillLeftTiles(tileSize);
         Tile blankTile = new Tile(color.WHITE, -1);
         allTiles.put(-1, blankTile);
-        return allTiles;
     }
 
     public Tile_Puzzle getStartingTilePuzzle() throws IOException {
+        getAllTiles();
         int[] tileSize = getTileSize(Files.readAllLines(Paths.get(path)).get(3));
         Tile[][] tileMat = new Tile[tileSize[0]][tileSize[1]];
         int[] blankPosition = new int[2];
