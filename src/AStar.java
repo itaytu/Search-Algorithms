@@ -22,9 +22,8 @@ public class AStar extends absAlgorithm{
             openList.remove(currentNode);
 
             ArrayList<Tile_Puzzle> nodeOperations = Operators.availableOperators(currentNode, true);
+            numOfCreated+= nodeOperations.size();
             for (Tile_Puzzle node : nodeOperations) {
-               // System.out.println(node.toString());
-                numOfCreated++;
                 if (node.equals(endingNode))
                     return getPath(node, true);
                 if (openList.contains(node) && openList.get(node) <= node.getfCost())

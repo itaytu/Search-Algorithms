@@ -30,8 +30,8 @@ public class DFID extends absAlgorithm {
             pathSet.add(currentNode);
             boolean isCutoff = false;
             ArrayList<Tile_Puzzle> nodeOperations = Operators.availableOperators(currentNode, false);
+            numOfCreated+= nodeOperations.size();
             for (Tile_Puzzle tile_puzzle : nodeOperations) {
-                numOfCreated++;
                 if (!pathSet.contains(tile_puzzle)){
                     result = limited_DFS(tile_puzzle, endingNode, limit-1, pathSet);
                     if (result.equals("cutoff")){

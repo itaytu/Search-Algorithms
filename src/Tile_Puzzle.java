@@ -12,6 +12,7 @@ public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
     private int fCost;
     private int numOfIteration;
     private int moveDirection;
+    private boolean isOut;
 
     public Tile_Puzzle(int row, int col, int[] blankPosition){
         tileMat = new Tile[row][col];
@@ -21,6 +22,7 @@ public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
         fCost = 0;
         numOfIteration = 0;
         moveDirection = -1;
+        isOut = false;
     }
 
     public Tile_Puzzle(Tile[][] tileMat) {
@@ -30,6 +32,7 @@ public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
         fCost = 0;
         numOfIteration = 0;
         moveDirection = -1;
+        isOut = false;
     }
 
     public Tile_Puzzle(Tile_Puzzle other) {
@@ -97,6 +100,11 @@ public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
     public void setMoveDirection(int direction) { this.moveDirection = direction; }
 
     public int getMoveDirection() { return this.moveDirection; }
+
+
+    public void setOut(boolean isOut) { this.isOut = isOut; }
+
+    public boolean getOut() { return this.isOut; }
 
 
     @Override

@@ -24,8 +24,8 @@ public class BFS extends absAlgorithm {
             openList.remove(currentNode);
             closedList.add(currentNode);
             ArrayList<Tile_Puzzle> nodeOperations = Operators.availableOperators(currentNode, false);
+            numOfCreated += nodeOperations.size();
             for (Tile_Puzzle operation : nodeOperations) {
-                numOfCreated++;
                 if (!openList.contains(operation) && !closedList.contains(operation)) {
                     if (operation.equals(endingNode))
                         return getPath(operation, true);

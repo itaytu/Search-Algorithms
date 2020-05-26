@@ -11,6 +11,8 @@ public class Ex1 {
             String algName = file_reader.getAlgorithm();
             if (algName.equals("A*"))
                 algName = "AStar";
+            if (algName.equals("IDA*"))
+                algName = "IDAStar";
             Class<absAlgorithm> _tempClass = (Class<absAlgorithm>) Class.forName(algName);
             Constructor<absAlgorithm> ctor = _tempClass.getDeclaredConstructor(File_Reader.class, Tile_Puzzle.class, Tile_Puzzle.class);
             absAlgorithm algorithm = ctor.newInstance(file_reader, file_reader.getStartingTilePuzzle(), file_reader.getEndingTilePuzzle());
