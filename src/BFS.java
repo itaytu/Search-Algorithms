@@ -6,12 +6,14 @@ import java.util.Queue;
 
 public class BFS extends absAlgorithm {
 
-    public BFS(File_Reader file_reader,Tile_Puzzle startingNode, Tile_Puzzle endingNode) throws IOException {
+    public BFS(File_Reader file_reader,Tile_Puzzle startingNode, Tile_Puzzle endingNode) {
         super(file_reader, startingNode, endingNode);
     }
 
     @Override
     public String Init() {
+        if (!checkIfPossible(startingNode.getTileMat(), endingNode.getTileMat()))
+            return getPath(startingNode, false);
         Queue<Tile_Puzzle> myQueue = new LinkedList<>();
         HashSet<Tile_Puzzle> openList = new HashSet<>();
         HashSet<Tile_Puzzle> closedList = new HashSet<>();
@@ -23,7 +25,7 @@ public class BFS extends absAlgorithm {
             Tile_Puzzle currentNode = myQueue.poll();
             openList.remove(currentNode);
             closedList.add(currentNode);
-            ArrayList<Tile_Puzzle> nodeOperations = Operators.availableOperators(currentNode, false);
+            ArrayList<Tile_Puzzle> nodeOperations = Operators.availableOperators(currentNode, false, "all");
             numOfCreated += nodeOperations.size();
             for (Tile_Puzzle operation : nodeOperations) {
                 if (!openList.contains(operation) && !closedList.contains(operation)) {
@@ -34,23 +36,6 @@ public class BFS extends absAlgorithm {
                 }
             }
         }
-        return getPath( startingNode,false);
+        return getPath(startingNode,false);
     }
-
-    @Override
-    public String getPath(Tile_Puzzle operation, boolean isPath){
-        String path = "";
-        if (isPath) {
-            path = operation.getCurrentPath().substring(1) + "\n";
-            path += "Num: " + numOfCreated + "\n";
-            path += "Cost: " + operation.getCostOfPath();
-        }
-        else{
-
-        }
-        return path;
-    }
-
-
-
 }

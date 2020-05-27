@@ -1,9 +1,6 @@
-import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 public class Ex1 {
-    //throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException
     public static void main(String[] args) {
         String path = "input.txt";
         try {

@@ -111,7 +111,7 @@ public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
     public String toString() {
         StringBuilder s = new StringBuilder();
         for (Tile[] tiles : tileMat) {
-            s.append(Arrays.toString(tiles)).append("\n");
+            s.append(Arrays.toString(tiles)).append(" ");
         }
         return s.toString();
     }
@@ -130,7 +130,15 @@ public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(tileMat);
+        int hashing = 0;
+        int index = 1;
+        for (int i = 0; i < tileMat.length; i++) {
+            for (int j = 0; j < tileMat[0].length; j++) {
+                hashing += (tileMat[i][j].getIndex() * index) ^ 2;
+                index++;
+            }
+        }
+        return hashing;
     }
 
     @Override
