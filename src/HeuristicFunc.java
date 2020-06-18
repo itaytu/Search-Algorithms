@@ -1,19 +1,10 @@
 public class HeuristicFunc {
 
-
-    public static int manhattanDistance(Tile_Puzzle currentNode, int[] tilePosition){
-        Tile currentTile = currentNode.getTileMat()[tilePosition[0]][tilePosition[1]];
-
-        int rowLength = currentNode.getTileMat()[0].length;
-        int value = currentTile.getIndex();
-        int rowExpected = (value - 1)/rowLength;
-        int colExpected = (value - 1)%rowLength;
-
-        int heuristicValue = Math.abs(rowExpected - tilePosition[0]) + Math.abs(colExpected - tilePosition[1]);
-        return currentTile.getColor().getValue() * heuristicValue;
-    }
-
-
+    /**
+     * This function calculates the heuristic function of a given tile puzzle state
+     * @param startingNode
+     * @return int
+     */
     public static int manhattanDistanceInitialize(Tile_Puzzle startingNode){
         int value = 0;
         int rowLength = startingNode.getTileMat()[0].length;

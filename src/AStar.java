@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.*;
 
 public class AStar extends absAlgorithm{
@@ -9,7 +8,7 @@ public class AStar extends absAlgorithm{
 
     @Override
     public String Init() {
-        if (!checkIfPossible(startingNode.getTileMat(), endingNode.getTileMat()))
+        if (checkIfNotPossible(startingNode.getTileMat(), endingNode.getTileMat()))
             return getPath(startingNode, false);
         PriorityQueue<Tile_Puzzle> myQueue = new PriorityQueue<>();
         Hashtable<Tile_Puzzle, Integer> openList = new Hashtable<>();
@@ -21,6 +20,10 @@ public class AStar extends absAlgorithm{
 
         while (!myQueue.isEmpty()){
             Tile_Puzzle currentNode = myQueue.poll();
+            if (file_reader.getWithOpen()){
+                openList.forEach((k, v) -> System.out.println(k.toString()));
+                System.out.println("-----------------------------------------");
+            }
             openList.remove(currentNode);
 
             if (currentNode.equals(endingNode))

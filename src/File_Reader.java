@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class File_Reader {
+    /**
+     *  This class is in charge of parsing all the information from the input txt file and extracting
+     *  all the relevant information needed for the different calculations.
+     */
     private String path;
     private Map<Integer, Tile> allTiles = new HashMap<>();
 
@@ -12,6 +16,7 @@ public class File_Reader {
         this.path = path;
     }
 
+    //Extract the wanted algorithm
     public String getAlgorithm(){
         try {
             return Files.readAllLines(Paths.get(path)).get(0);
@@ -21,6 +26,7 @@ public class File_Reader {
         }
     }
 
+    //Extract if with time or not
     public boolean getWithTime() {
         try {
             return Files.readAllLines(Paths.get(path)).get(1).equals("with time");
@@ -30,6 +36,7 @@ public class File_Reader {
         }
     }
 
+    //Extract if with open or not
     public boolean getWithOpen(){
         try {
             return Files.readAllLines(Paths.get(path)).get(2).equals("with open");
@@ -37,18 +44,22 @@ public class File_Reader {
         catch (IOException e){ return false; }
     }
 
-    public void getAllTiles() {
+    //Get the number of black tiles
+    public int getNumOfBlacks() {
+        String s = "";
         try {
-            int[] tileSize = getTileSize(Files.readAllLines(Paths.get(path)).get(3));
-            getTiles(Files.readAllLines(Paths.get(path)).get(4), color.BLACK);
-            getTiles(Files.readAllLines(Paths.get(path)).get(5), color.RED);
-            fillLeftTiles(tileSize);
-            Tile blankTile = new Tile(color.WHITE, -1);
-            allTiles.put(-1, blankTile);
+            s = Files.readAllLines(Paths.get(path)).get(0);
+            s = s.replaceAll(" ", "");
+            String sub = s.substring(s.indexOf(':') + 1);
+            String[] tiles = sub.split(",");
+            return tiles.length;
         }
-        catch (IOException e){ System.out.println(e.toString()); }
+        catch (IOException e){
+            return 0;
+        }
     }
 
+    //Get the starting state of the tile puzzle
     public Tile_Puzzle getStartingTilePuzzle(){
         try {
             getAllTiles();
@@ -68,8 +79,8 @@ public class File_Reader {
                     tileMat[i][j] = allTiles.get(index);
                 }
             }
-            Tile_Puzzle tile_puzzle = new Tile_Puzzle(tileSize[0], tileSize[1], blankPosition);
-            tile_puzzle.setTileMat(tileMat);
+            Tile_Puzzle tile_puzzle = new Tile_Puzzle(tileMat);
+            tile_puzzle.setBlankPosition(blankPosition);
             return tile_puzzle;
         }
         catch (IOException e) {
@@ -78,6 +89,7 @@ public class File_Reader {
         }
     }
 
+    //Get the ending state of the tile puzzle
     public Tile_Puzzle getEndingTilePuzzle(){
         try {
             int[] tileSize = getTileSize(Files.readAllLines(Paths.get(path)).get(3));
@@ -106,7 +118,7 @@ public class File_Reader {
         }
     }
 
-
+    //Extract the tile puzzle size
     private int[] getTileSize(String s) {
         int index = s.indexOf('x');
         int[] tileSize = new int[2];
@@ -115,6 +127,20 @@ public class File_Reader {
         return tileSize;
     }
 
+    //Extract all the tiles
+    private void getAllTiles() {
+        try {
+            int[] tileSize = getTileSize(Files.readAllLines(Paths.get(path)).get(3));
+            getTiles(Files.readAllLines(Paths.get(path)).get(4), color.BLACK);
+            getTiles(Files.readAllLines(Paths.get(path)).get(5), color.RED);
+            fillLeftTiles(tileSize);
+            Tile blankTile = new Tile(color.WHITE, -1);
+            allTiles.put(-1, blankTile);
+        }
+        catch (IOException e){ System.out.println(e.toString()); }
+    }
+
+    //Extract the tiles from each type
     private void getTiles(String s, color color) {
         s = s.replaceAll(" ", "");
         String sub = s.substring(s.indexOf(':') + 1);
@@ -130,6 +156,7 @@ public class File_Reader {
         }
     }
 
+    //Create all the tiles that weren't generated yet
     private void fillLeftTiles(int[] tileSize) {
         int numOfIndexes = tileSize[0] * tileSize[1];
         for (int i = 1; i <  numOfIndexes; i++){

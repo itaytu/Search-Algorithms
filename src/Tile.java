@@ -1,6 +1,10 @@
 import java.util.Objects;
 
 public class Tile {
+    /**
+     * This class represents a Tile in the Tile Puzzle.
+     * It has different overridden methods needed in order to print and check equality between objects.
+     */
     private color color;
     private int index;
 

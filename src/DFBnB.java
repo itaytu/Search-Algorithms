@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.*;
 
 public class DFBnB extends absAlgorithm {
@@ -9,18 +8,22 @@ public class DFBnB extends absAlgorithm {
 
     @Override
     public String Init() {
-        if (!checkIfPossible(startingNode.getTileMat(), endingNode.getTileMat()))
+        if (checkIfNotPossible(startingNode.getTileMat(), endingNode.getTileMat()))
             return getPath(startingNode, false);
 
         Stack<Tile_Puzzle> nodeStack = new Stack<>();
         Hashtable<Tile_Puzzle, Tile_Puzzle> openList = new Hashtable<>();
         Tile_Puzzle result = startingNode;
-        int t = Integer.MAX_VALUE;
-
+        int n = file_reader.getNumOfBlacks();
+        int t = Math.min(factorial(n), Integer.MAX_VALUE);
         nodeStack.add(startingNode);
         openList.put(startingNode, startingNode);
         while (!nodeStack.isEmpty()) {
             Tile_Puzzle currentNode = nodeStack.pop();
+            if (file_reader.getWithOpen()){
+                openList.forEach((k, v) -> System.out.println(k.toString()));
+                System.out.println("-----------------------------------------");
+            }
             if (currentNode.getOut())
                 openList.remove(currentNode);
             else {
@@ -64,4 +67,14 @@ public class DFBnB extends absAlgorithm {
         }
         return getPath(result, true);
     }
+
+
+    private int factorial(int num) {
+        int result = 1;
+        for (int i = 2; i <= num ; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
 }

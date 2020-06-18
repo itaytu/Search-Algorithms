@@ -1,3 +1,5 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 
 public class Ex1 {
@@ -13,10 +15,12 @@ public class Ex1 {
             Class<absAlgorithm> _tempClass = (Class<absAlgorithm>) Class.forName(algName);
             Constructor<absAlgorithm> ctor = _tempClass.getDeclaredConstructor(File_Reader.class, Tile_Puzzle.class, Tile_Puzzle.class);
             absAlgorithm algorithm = ctor.newInstance(file_reader, file_reader.getStartingTilePuzzle(), file_reader.getEndingTilePuzzle());
-            System.out.println(algorithm.Init());
+            BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
+            writer.write(algorithm.Init());
+            writer.close();
         }
         catch (Exception e) {
-            System.out.println("An error occurred during the program: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

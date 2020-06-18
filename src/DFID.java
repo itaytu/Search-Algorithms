@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class DFID extends absAlgorithm {
@@ -10,12 +11,10 @@ public class DFID extends absAlgorithm {
 
     @Override
     public String Init() {
-        if (!checkIfPossible(startingNode.getTileMat(), endingNode.getTileMat()))
-            return getPath(startingNode, false);
         String result = "";
         for (int i = 1; i < Integer.MAX_VALUE; i++) {
-            HashSet<Tile_Puzzle> pathSet = new HashSet<>();
-            result = limited_DFS(startingNode, endingNode, i, pathSet);
+            HashSet<Tile_Puzzle> openList = new HashSet<>();
+            result = limited_DFS(startingNode, endingNode, i, openList);
             if (!result.equals("cutoff")) {
                 if (result.equals("fail"))
                     return getPath(startingNode, false);
@@ -26,7 +25,7 @@ public class DFID extends absAlgorithm {
     }
 
 
-    private String limited_DFS(Tile_Puzzle currentNode, Tile_Puzzle endingNode, int limit, HashSet<Tile_Puzzle> pathSet) {
+    private String limited_DFS(Tile_Puzzle currentNode, Tile_Puzzle endingNode, int limit, HashSet<Tile_Puzzle> openList) {
         String result;
         String[] operations = {"L", "U", "R", "D"};
 
@@ -35,14 +34,14 @@ public class DFID extends absAlgorithm {
         else if(limit == 0)
             return "cutoff";
         else {
-            pathSet.add(currentNode);
+            openList.add(currentNode);
             boolean isCutoff = false;
             for (String movement : operations) {
                 ArrayList<Tile_Puzzle> nodeOperations = Operators.availableOperators(currentNode, false, movement);
                 numOfCreated += nodeOperations.size();
                 for (Tile_Puzzle tile_puzzle : nodeOperations) {
-                    if (!pathSet.contains(tile_puzzle)) {
-                        result = limited_DFS(tile_puzzle, endingNode, limit - 1, pathSet);
+                    if (!openList.contains(tile_puzzle)) {
+                        result = limited_DFS(tile_puzzle, endingNode, limit - 1, openList);
                         if (result.equals("cutoff")) {
                             isCutoff = true;
                         } else if (!result.equals("fail"))
@@ -50,7 +49,13 @@ public class DFID extends absAlgorithm {
                     }
                 }
             }
-            pathSet.remove(currentNode);
+            if (file_reader.getWithOpen()){
+                for (Tile_Puzzle node : openList){
+                    System.out.println(node.toString());
+                }
+                System.out.println("-----------------------------------------");
+            }
+            openList.remove(currentNode);
             if(isCutoff)
                 return "cutoff";
             else

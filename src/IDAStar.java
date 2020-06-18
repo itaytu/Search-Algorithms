@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Stack;
@@ -11,7 +10,7 @@ public class IDAStar extends absAlgorithm {
 
     @Override
     public String Init() {
-        if (!checkIfPossible(startingNode.getTileMat(), endingNode.getTileMat()))
+        if (checkIfNotPossible(startingNode.getTileMat(), endingNode.getTileMat()))
             return getPath(startingNode, false);
         String[] operations = {"L", "U", "R", "D"};
         Stack<Tile_Puzzle> nodeStack = new Stack<>();
@@ -25,6 +24,10 @@ public class IDAStar extends absAlgorithm {
             startingNode.setOut(false);
             while (!nodeStack.isEmpty()) {
                 Tile_Puzzle currentNode = nodeStack.pop();
+                if (file_reader.getWithOpen()){
+                    openList.forEach((k, v) -> System.out.println(k.toString()));
+                    System.out.println("-----------------------------------------");
+                }
                 if (currentNode.getOut())
                     openList.remove(currentNode);
                 else {

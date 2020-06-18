@@ -2,6 +2,11 @@ import java.util.Arrays;
 
 public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
 
+    /**
+     * This class represents the state of a Tile Puzzle at any given point and has
+     * different variables needed for calculations.
+     */
+
     private Tile[][] tileMat;
     private Tile_Puzzle parentNode = null;
 
@@ -14,16 +19,6 @@ public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
     private int moveDirection;
     private boolean isOut;
 
-    public Tile_Puzzle(int row, int col, int[] blankPosition){
-        tileMat = new Tile[row][col];
-        setBlankPosition(blankPosition);
-        currentPath = "";
-        costOfPath = 0;
-        fCost = 0;
-        numOfIteration = 0;
-        moveDirection = -1;
-        isOut = false;
-    }
 
     public Tile_Puzzle(Tile[][] tileMat) {
         this.tileMat = tileMat;
@@ -143,19 +138,9 @@ public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
 
     @Override
     public int compareTo(Tile_Puzzle other) {
-       if(this.getfCost() - other.getfCost() == 0){
-           if(this.getNumOfIteration() == other.getNumOfIteration()){
-               return other.getMoveDirection() - this.getMoveDirection();
-           }
-           else if (this.getNumOfIteration() > other.getNumOfIteration())
-               return 1;
-           else
-               return -1;
-       }
-       else if(this.getfCost() - other.getfCost() > 0)
-           return 1;
-       else
-           return -1;
+        if(this.fCost - other.fCost != 0) return Integer.compare(this.fCost, other.fCost);
+        if(this.numOfIteration - other.numOfIteration != 0) return Integer.compare(this.numOfIteration , other.numOfIteration);
+        return Integer.compare(this.moveDirection, other.moveDirection);
     }
 }
 
