@@ -1,6 +1,11 @@
 import java.util.Arrays;
 
-public class Tile_Puzzle {
+public class Tile_Puzzle implements Comparable<Tile_Puzzle>{
+
+    /**
+     * This class represents the state of a Tile Puzzle at any given point and has
+     * different variables needed for calculations.
+     */
 
     private Tile[][] tileMat;
     private Tile_Puzzle parentNode = null;
@@ -9,18 +14,20 @@ public class Tile_Puzzle {
     private String currentPath;
 
     private int costOfPath;
+    private int fCost;
+    private int numOfIteration;
+    private int moveDirection;
+    private boolean isOut;
 
-    public Tile_Puzzle(int row, int col, int[] blankPosition){
-        tileMat = new Tile[row][col];
-        setBlankPosition(blankPosition);
-        currentPath = "";
-        costOfPath = 0;
-    }
 
     public Tile_Puzzle(Tile[][] tileMat) {
         this.tileMat = tileMat;
         currentPath = "";
         costOfPath = 0;
+        fCost = 0;
+        numOfIteration = 0;
+        moveDirection = -1;
+        isOut = false;
     }
 
     public Tile_Puzzle(Tile_Puzzle other) {
@@ -35,6 +42,7 @@ public class Tile_Puzzle {
         setBlankPosition(other.blankPosition);
         currentPath = other.currentPath;
         costOfPath = other.costOfPath;
+        numOfIteration = other.numOfIteration;
     }
 
     public Tile[][] getTileMat() { return tileMat; }
@@ -73,13 +81,34 @@ public class Tile_Puzzle {
 
     public int getCostOfPath() { return this.costOfPath; }
 
+
+    public int getfCost() { return this.fCost; }
+
+    public void setfCost(int cost) { this.fCost = cost; }
+
+
+    public int getNumOfIteration() { return this.numOfIteration; }
+
+    public void addNumOfIteration() { this.numOfIteration++; }
+
+
+    public void setMoveDirection(int direction) { this.moveDirection = direction; }
+
+    public int getMoveDirection() { return this.moveDirection; }
+
+
+    public void setOut(boolean isOut) { this.isOut = isOut; }
+
+    public boolean getOut() { return this.isOut; }
+
+
     @Override
     public String toString() {
-        String s = "";
-        for (int i = 0; i < tileMat.length; i++){
-            s += Arrays.toString(tileMat[i]) + "\n";
+        StringBuilder s = new StringBuilder();
+        for (Tile[] tiles : tileMat) {
+            s.append(Arrays.toString(tiles)).append(" ");
         }
-        return s;
+        return s.toString();
     }
 
     @Override
@@ -96,7 +125,22 @@ public class Tile_Puzzle {
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(tileMat);
+        int hashing = 0;
+        int index = 1;
+        for (int i = 0; i < tileMat.length; i++) {
+            for (int j = 0; j < tileMat[0].length; j++) {
+                hashing += (tileMat[i][j].getIndex() * index) ^ 2;
+                index++;
+            }
+        }
+        return hashing;
+    }
+
+    @Override
+    public int compareTo(Tile_Puzzle other) {
+        if(this.fCost - other.fCost != 0) return Integer.compare(this.fCost, other.fCost);
+        if(this.numOfIteration - other.numOfIteration != 0) return Integer.compare(this.numOfIteration , other.numOfIteration);
+        return Integer.compare(this.moveDirection, other.moveDirection);
     }
 }
 
